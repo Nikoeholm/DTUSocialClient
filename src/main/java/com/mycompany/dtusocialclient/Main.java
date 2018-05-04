@@ -18,15 +18,18 @@ import org.json.JSONObject;
 /**
  *
  * @author Nikolaj
- * 
+ *
  */
 public class Main {
-    public static final String getUsersURL = "http://localhost:8080/DTUSocial/users/";
-    public static final String loginURL = "http://localhost:8080/DTUSocial/login/";
-    public static final String getTodosURL = "http://localhost:8080/DTUSocial/users/usertodo/";
-    public static final String getChatURL = "http://localhost:8080/DTUSocial/chat/";
+    public static final String baseUrl = "http://130.225.170.246:8080/DTUSocial-1.0";
+    public static final String getUsersURL = baseUrl +"/users/";
+    public static final String loginURL = baseUrl +"/login/";
+    public static final String getChatURL = baseUrl +"/chat/";
+    
+    public static final String getTodos = "/todos";
     public static String token = "";
     public static String username;
+    
     static Gson gson = new Gson();
     
     public static void main(String[] args) throws UnirestException, IOException {
@@ -42,8 +45,8 @@ public class Main {
                 .header("Content-Type", "application/json")
                 .body(json).asString();
         System.out.println("Login posted " + json.toString());
-          
-       
+        
+        
         String authBody = (String) response.getBody();
         String autheader = gson.fromJson(authBody, String.class);
         
@@ -70,12 +73,9 @@ public class Main {
         while (true) {
             switch(tap) {
                 case "t":
-                    response = Unirest.get(getTodosURL)
+                    response = Unirest.get(getUsersURL + username + getTodos)
                             .header("Content-Type", "application/json")
                             .header("Authorization", autheader).asJson();
-                    
-                    
-                    
                     System.out.println(response.getBody());
                     break;
                     
@@ -88,31 +88,28 @@ public class Main {
                     
                 case "p":
                     response = Unirest.get(getUsersURL + username)
-                             .header("Content-Type", "application/json")
+                            .header("Content-Type", "application/json")
                             .header("Authorization", autheader).asJson();
-                    System.out.println(username);
                     System.out.println(response.getBody());
-                    
                     break;
                     
                 case "e":
                     System.exit(0);
                     break;
-                        
+                    
                     
                 default:
                     System.out.println("**************************************\n" +
                             "Dette er ikke et ordentligt input, prøv et af disse i stedet:\n"+
                             "Tryk T for at få din todos\n" +
                             "Tryk C for at se dine chatbeskeder\n" +
-                            "Tryk P for at se dine profil\n" +  
-                            "Tryk E for at lukke programmet\n" + 
+                            "Tryk P for at se dine profil\n" +
+                            "Tryk E for at lukke programmet\n" +
                             "**************************************\n");
                     break;
             }
             tap = scan.nextLine().toLowerCase();
         }
     }
-
-
+       
 }

@@ -21,12 +21,12 @@ import org.json.JSONObject;
  *
  */
 public class Main {
-    public static final String baseUrl = "http://130.225.170.246:8080/DTUSocial-1.0";
-    public static final String getUsersURL = baseUrl +"/users/";
-    public static final String loginURL = baseUrl +"/login/";
-    public static final String getChatURL = baseUrl +"/chat/";
+    public static final String BASE_URL = "http://130.225.170.246:8080/DTUSocial-1.0";
+    public static final String USERS_URL = BASE_URL +"/users/";
+    public static final String LOGIN_URL = BASE_URL +"/login/";
+    public static final String CHAT_URL = BASE_URL +"/chat/";
     
-    public static final String getTodos = "/todos";
+    public static final String TODOS_PATH = "/todos";
     public static String token = "";
     public static String username;
     
@@ -36,21 +36,20 @@ public class Main {
         String username, password;
         Scanner scan = new Scanner(System.in);
         System.out.println("Indtast studienummer: ");
-        username = scan.nextLine();
+        username = scan.nextLine().toLowerCase();
         System.out.println("Indtast password");
         password = scan.nextLine();
         
         JSONObject json = new Login(username, password).toJSON();
-        HttpResponse response = Unirest.post(loginURL)
+        HttpResponse response = Unirest.post(LOGIN_URL)
                 .header("Content-Type", "application/json")
                 .body(json).asString();
-        System.out.println("Login posted " + json.toString());
+        System.out.println("Login posted");
         
         
         String authBody = (String) response.getBody();
         String autheader = gson.fromJson(authBody, String.class);
-        
-        System.out.println(autheader);
+
         
         if(response.getStatus() != 200){
             String exceptionRes = "Der skete en fejl under login!" + "/n" + "Status code: " + response.getStatus() +"\n"+ response.getStatusText();
@@ -73,21 +72,21 @@ public class Main {
         while (true) {
             switch(tap) {
                 case "t":
-                    response = Unirest.get(getUsersURL + username + getTodos)
+                    response = Unirest.get(USERS_URL + username + TODOS_PATH)
                             .header("Content-Type", "application/json")
                             .header("Authorization", autheader).asJson();
                     System.out.println(response.getBody());
                     break;
                     
                 case "c":
-                    response = Unirest.get(getChatURL)
+                    response = Unirest.get(CHAT_URL)
                             .header("Content-Type", "application/json")
                             .header("Authorization", autheader).asJson();
                     System.out.println(response.getBody());
                     break;
                     
                 case "p":
-                    response = Unirest.get(getUsersURL + username)
+                    response = Unirest.get(USERS_URL + username)
                             .header("Content-Type", "application/json")
                             .header("Authorization", autheader).asJson();
                     System.out.println(response.getBody());

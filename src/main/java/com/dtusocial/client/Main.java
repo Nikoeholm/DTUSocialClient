@@ -1,18 +1,11 @@
-/*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
-*/
-package com.mycompany.dtusocialclient;
+package com.dtusocial.client;
 
 import com.google.gson.Gson;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
-import static com.mashape.unirest.http.Unirest.post;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import java.io.IOException;
 import java.util.Scanner;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -99,8 +92,8 @@ public class Main {
                     
                 default:
                     System.out.println("**************************************\n" +
-                            "Dette er ikke et ordentligt input, prøv et af disse i stedet:\n"+
-                            "Tryk T for at få din todos\n" +
+                            "Dette er ikke et ordentligt input, prï¿½v et af disse i stedet:\n"+
+                            "Tryk T for at fï¿½ din todos\n" +
                             "Tryk C for at se dine chatbeskeder\n" +
                             "Tryk P for at se dine profil\n" +
                             "Tryk E for at lukke programmet\n" +
